@@ -71,5 +71,15 @@ solver.add(And(l.eq(5)));
 solver.add(And(r.eq(10)));
 solver.add(And(t.eq(15)));
 solver.add(And(b.eq(25)));
-solver.add(And(x.le(r), x.ge(l))); // horizontal range
-solver.add(And(x.le(b), x.ge(t))); // vertical range
+solver.add(And(xPos.le(r), xPos.ge(l))); // horizontal range
+solver.add(And(yPos.le(b), yPos.ge(t))); // vertical range'
+
+if (await solver.check() === "sat") {
+    let model = solver.model();
+    let xVal = parseInt(model.eval(x).toString());
+    console.log(`sat. A valid x-coordinate is: ${xVal}`);
+    let yVal = parseInt(model.eval(y).toString());
+    console.log(`sat. A valid y-coordinate is: ${yVal} \n`);
+} else {
+    console.log("unsat. Could not find a valid value. \n");
+}
