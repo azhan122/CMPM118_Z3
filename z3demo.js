@@ -60,19 +60,26 @@ possible value for x and y of being inside the fence (for example, we want
 to use Z3 to pick the value for where to place a cow inside the fence). */
 
 solver.reset();
-const l = Int.const('l'); // left
-const r = Int.const('r'); // right
-const t = Int.const('t'); // top
-const b = Int.const('b'); // bottom
 const xPos = Int.const('x'); // horizontal
 const yPos = Int.const('y'); // vertical
 
-solver.add(And(l.eq(5)));
-solver.add(And(r.eq(10)));
-solver.add(And(t.eq(15)));
-solver.add(And(b.eq(25)));
-solver.add(And(xPos.le(r), xPos.ge(l))); // horizontal range
-solver.add(And(yPos.le(b), yPos.ge(t))); // vertical range'
+solver.add(And(xPos.le(10), xPos.ge(5))); // horizontal range
+solver.add(And(yPos.le(25), yPos.ge(15))); // vertical range
+
+if (await solver.check() === "sat") {
+    let model = solver.model();
+    let xVal = parseInt(model.eval(x).toString());
+    console.log(`sat. A valid x-coordinate is: ${xVal}`);
+    let yVal = parseInt(model.eval(y).toString());
+    console.log(`sat. A valid y-coordinate is: ${yVal} \n`);
+} else {
+    console.log("unsat. Could not find a valid value. \n");
+}
+
+solver.reset();
+solver.add(And(xPos.ge(8)));
+solver.add(And(yPos.ge(20)));
+solver.add(Or(xPos.lt(5), xPos.gt(10), yPos.lt(15), yPos.gt(25))); // exclude values in fence
 
 if (await solver.check() === "sat") {
     let model = solver.model();
