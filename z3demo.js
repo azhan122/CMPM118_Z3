@@ -59,10 +59,13 @@ express the constraint of being "inside" the fence, and then generate one
 possible value for x and y of being inside the fence (for example, we want
 to use Z3 to pick the value for where to place a cow inside the fence). */
 
+solver.reset();
 const l = Int.const('l'); // left
 const r = Int.const('r'); // right
 const t = Int.const('t'); // top
 const b = Int.const('b'); // bottom
+const xPos = Int.const('x'); // horizontal
+const yPos = Int.const('y'); // vertical
 
 solver.add(And(l.eq(5)));
 solver.add(And(r.eq(10)));
