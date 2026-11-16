@@ -58,3 +58,13 @@ the top fence side is at y=15, the bottom fence side is at y=25. Using Z3,
 express the constraint of being "inside" the fence, and then generate one
 possible value for x and y of being inside the fence (for example, we want
 to use Z3 to pick the value for where to place a cow inside the fence). */
+
+const l = Int.const('l'); // left
+const r = Int.const('r'); // right
+const t = Int.const('t'); // top
+const b = Int.const('b'); // bottom
+
+solver.add(And(l.eq(5)));
+solver.add(And(r.eq(10)));
+solver.add(And(t.eq(15)));
+solver.add(And(b.eq(25)));
