@@ -97,29 +97,19 @@ Place 2-3 signs next to a path
 Place a beehive anywhere there isn't already something present. */
 
 solver.reset();
-solver.add(And(xPos.le(15), xPos.ge(25))); // horizontal range
-solver.add(And(yPos.le(15), yPos.ge(25))); // vertical range
+solver.add(And(xPos.le(15), xPos.ge(5))); // horizontal range
+solver.add(And(yPos.le(15), yPos.ge(5))); // vertical range
 
-/*
 const whee = Int.const('wb'); // wheelbarrow
 const mush = Int.const('mr'); // mushroom
 const sign = Int.const('sg'); // sign
 const bees = Int.const('bh'); // beehive
-*/
 
 if (await solver.check() === "sat") {
     let model = solver.model();
     let xVal = parseInt(model.eval(x).toString());
-    console.log(`sat. A valid value for x is: ${xVal}`);
-} else {
-    console.log("unsat. Could not find a valid value for x.");
-}
-
-if (await solver.check() === "sat") {
-    let model = solver.model();
     let yVal = parseInt(model.eval(y).toString());
-    console.log(`sat. A valid value for x is: ${yVal}`);
-
+    console.log(`sat. Valid coordinates for the wheelbarrow: (${xVal}, ${yVal}) \n`);
 } else {
-    console.log("unsat. Could not find a valid value for y.");
+    console.log("unsat. Could not find a valid value. \n");
 }
